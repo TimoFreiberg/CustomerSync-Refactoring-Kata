@@ -35,18 +35,14 @@ public class CustomerSync {
         customer.importExternalData(externalCustomer);
 
         for (Customer duplicate : customerMatches.getDuplicates()) {
-            updateDuplicate(externalCustomer, duplicate);
+            duplicate.setName(externalCustomer.getName());
+            this.customerDataAccess.updateCustomerRecord(duplicate);
         }
 
         this.customerDataAccess.updateShoppingLists(externalCustomer.getShoppingLists());
         this.customerDataAccess.updateCustomerRecord(customer);
 
         return newCustomer;
-    }
-
-    private void updateDuplicate(ExternalCustomer externalCustomer, Customer duplicate) {
-        duplicate.setName(externalCustomer.getName());
-        this.customerDataAccess.updateCustomerRecord(duplicate);
     }
 
 }

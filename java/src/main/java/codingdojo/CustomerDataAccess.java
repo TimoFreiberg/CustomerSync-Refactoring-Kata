@@ -19,9 +19,7 @@ public class CustomerDataAccess {
             }
 
             Customer matchByMasterId = this.customerDataLayer.findByMasterExternalId(externalId);
-            if (matchByMasterId != null) {
-                matches.addDuplicate(matchByMasterId);
-            }
+            matches.addDuplicate(matchByMasterId);
 
             String customerCompanyNumber = matchByExternalId.getCompanyNumber();
             if (!companyNumber.equals(customerCompanyNumber)) {
