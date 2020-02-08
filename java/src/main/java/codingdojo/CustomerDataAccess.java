@@ -1,5 +1,7 @@
 package codingdojo;
 
+import java.util.List;
+
 public class CustomerDataAccess {
 
     private final CustomerDataLayer customerDataLayer;
@@ -43,7 +45,9 @@ public class CustomerDataAccess {
         return customerDataLayer.createCustomerRecord(customer);
     }
 
-    public void updateShoppingList(ShoppingList consumerShoppingList) {
-        customerDataLayer.updateShoppingList(consumerShoppingList);
+    public void updateShoppingLists(List<ShoppingList> shoppingLists) {
+        for (ShoppingList consumerShoppingList : shoppingLists) {
+            customerDataLayer.updateShoppingList(consumerShoppingList);
+        }
     }
 }

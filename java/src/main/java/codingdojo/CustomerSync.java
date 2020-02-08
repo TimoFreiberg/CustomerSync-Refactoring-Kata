@@ -1,7 +1,5 @@
 package codingdojo;
 
-import java.util.List;
-
 public class CustomerSync {
 
     private final CustomerDataAccess customerDataAccess;
@@ -38,21 +36,10 @@ public class CustomerSync {
             updateDuplicate(externalCustomer, duplicate);
         }
 
-        updateShoppingLists(externalCustomer.getShoppingLists());
-
-        updateCustomer(customer);
+        this.customerDataAccess.updateShoppingLists(externalCustomer.getShoppingLists());
+        this.customerDataAccess.updateCustomerRecord(customer);
 
         return newCustomer;
-    }
-
-    private void updateShoppingLists(List<ShoppingList> shoppingLists) {
-        for (ShoppingList consumerShoppingList : shoppingLists) {
-            this.customerDataAccess.updateShoppingList(consumerShoppingList);
-        }
-    }
-
-    private void updateCustomer(Customer customer) {
-        this.customerDataAccess.updateCustomerRecord(customer);
     }
 
     private void updateDuplicate(ExternalCustomer externalCustomer, Customer duplicate) {
@@ -67,7 +54,7 @@ public class CustomerSync {
         if (duplicate.getInternalId() == null) {
             createCustomer(duplicate);
         } else {
-            updateCustomer(duplicate);
+            this.customerDataAccess.updateCustomerRecord(duplicate);
         }
     }
 
