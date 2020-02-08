@@ -21,7 +21,7 @@ public class CompanyCustomerFoundByByCompanyNumber implements Bla {
     }
 
     @Override
-    public void importExternalData(ExternalCustomer externalCustomer) {
+    public void importExternalData(ExternalCustomer externalCustomer, CustomerDataAccess customerDataAccess) {
         customer.setExternalId(externalCustomer.getExternalId());
         customer.setMasterExternalId(externalCustomer.getExternalId());
         customer.importExternalData(externalCustomer);

@@ -33,11 +33,9 @@ public class CustomerSync {
         }
 
         customerMatches.matches().forEach(match -> {
-            match.importExternalData(externalCustomer);
+            match.importExternalData(externalCustomer, this.customerDataAccess);
             match.persist(this.customerDataAccess);
         });
-
-
 
         customer.importExternalData(externalCustomer);
 

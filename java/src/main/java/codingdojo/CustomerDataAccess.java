@@ -42,7 +42,8 @@ public class CustomerDataAccess {
         return new CustomerMatches(
                 matchByCompanyNumber,
                 customerDataLayer.createCustomerRecord(Customer.fromExternalId(externalId))
-        ).with(new CompanyCustomerFoundByByCompanyNumber(matchByCompanyNumber, externalId));
+        ).with(new CompanyCustomerFoundByByCompanyNumber(matchByCompanyNumber, externalId),
+                new DuplicateCustomerToCreate());
     }
 
     private CustomerMatches loadCompanyCustomerByExternalId(String externalId, String companyNumber) {
