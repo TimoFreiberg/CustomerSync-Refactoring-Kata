@@ -30,7 +30,7 @@ public class CustomerDataAccess {
         if (matchByCompanyNumber == null) {
             return null;
         }
-        CustomerMatches matches = new CustomerMatches();
+
         if (!CustomerType.COMPANY.equals(matchByCompanyNumber.getCustomerType())) {
             throw new ConflictException("Existing customer for externalCustomer " + externalId + " already exists and is not a company");
         }
@@ -42,6 +42,7 @@ public class CustomerDataAccess {
         matchByCompanyNumber.setExternalId(externalId);
         matchByCompanyNumber.setMasterExternalId(externalId);
 
+        CustomerMatches matches = new CustomerMatches();
         matches.setCustomer(matchByCompanyNumber);
         matches.addDuplicate(customerDataLayer.createCustomerRecord(Customer.fromExternalId(externalId)));
         return matches;
@@ -53,11 +54,11 @@ public class CustomerDataAccess {
             return null;
         }
 
-        CustomerMatches matches = new CustomerMatches();
         if (!CustomerType.COMPANY.equals(matchByExternalId.getCustomerType())) {
             throw new ConflictException("Existing customer for externalCustomer " + externalId + " already exists and is not a company");
         }
 
+        CustomerMatches matches = new CustomerMatches();
         String customerCompanyNumber = matchByExternalId.getCompanyNumber();
         if (!companyNumber.equals(customerCompanyNumber)) {
             matchByExternalId.setMasterExternalId(null);
