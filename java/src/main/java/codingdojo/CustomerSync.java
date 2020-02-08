@@ -32,6 +32,13 @@ public class CustomerSync {
             );
         }
 
+        customerMatches.matches().forEach(match -> {
+            match.importExternalData(externalCustomer);
+            match.persist(this.customerDataAccess);
+        });
+
+
+
         customer.importExternalData(externalCustomer);
 
         for (Customer duplicate : customerMatches.getDuplicates()) {

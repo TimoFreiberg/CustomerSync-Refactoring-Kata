@@ -3,6 +3,7 @@ package codingdojo;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class CustomerMatches {
@@ -16,6 +17,10 @@ public class CustomerMatches {
     public CustomerMatches(Customer customer, Customer... duplicates) {
         this.duplicates = Arrays.stream(duplicates).filter(x -> x != null).collect(Collectors.toList());
         this.customer = customer;
+    }
+
+    public Iterable<Bla> matches() {
+        return List.of();
     }
 
     public Customer getCustomer() {
