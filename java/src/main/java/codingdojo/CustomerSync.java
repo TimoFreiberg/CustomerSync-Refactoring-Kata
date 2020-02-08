@@ -24,10 +24,7 @@ public class CustomerSync {
 
         boolean newCustomer = customer == null;
         if (newCustomer) {
-            customer = new Customer();
-            customer.setExternalId(externalCustomer.getExternalId());
-            customer.setMasterExternalId(externalCustomer.getExternalId());
-            customer = createCustomer(customer);
+            customer = createCustomer(externalCustomer);
         }
 
         populateFields(externalCustomer, customer);
@@ -42,6 +39,11 @@ public class CustomerSync {
         return newCustomer;
     }
 
+    private Customer createCustomer(ExternalCustomer externalCustomer) {
+        Customer customer = Customer.fromExternalId(externalCustomer.getExternalId());
+        return this.customerDataAccess.createCustomerRecord(customer);
+    }
+
     private void updateDuplicate(ExternalCustomer externalCustomer, Customer duplicate) {
         if (duplicate == null) {
             duplicate = new Customer();
@@ -52,14 +54,10 @@ public class CustomerSync {
         duplicate.setName(externalCustomer.getName());
 
         if (duplicate.getInternalId() == null) {
-            createCustomer(duplicate);
+            this.customerDataAccess.createCustomerRecord(duplicate);
         } else {
             this.customerDataAccess.updateCustomerRecord(duplicate);
         }
-    }
-
-    private Customer createCustomer(Customer customer) {
-        return this.customerDataAccess.createCustomerRecord(customer);
     }
 
     private void populateFields(ExternalCustomer externalCustomer, Customer customer) {

@@ -15,6 +15,16 @@ public class Customer {
     private CustomerType customerType;
     private String companyNumber;
 
+    public Customer() {
+    }
+
+    public static Customer fromExternalId(String externalId) {
+        Customer customer = new Customer();
+        customer.externalId = externalId;
+        customer.masterExternalId = externalId;
+        return customer;
+    }
+
     public void setExternalId(String externalId) {
         this.externalId = externalId;
     }
