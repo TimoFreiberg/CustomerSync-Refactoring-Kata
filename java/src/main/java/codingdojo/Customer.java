@@ -91,6 +91,9 @@ public class Customer {
         this.shoppingLists.add(consumerShoppingList);
     }
 
+    public void addShoppingLists(List<ShoppingList> consumerShoppingLists) {
+        this.shoppingLists.addAll(consumerShoppingLists);
+    }
 
     @Override
     public boolean equals(Object o) {
