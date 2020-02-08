@@ -43,9 +43,7 @@ public class CustomerDataAccess {
         return customerDataLayer.createCustomerRecord(customer);
     }
 
-    public void updateShoppingList(Customer customer, ShoppingList consumerShoppingList) {
-        customer.addShoppingList(consumerShoppingList);
+    public void updateShoppingList(ShoppingList consumerShoppingList) {
         customerDataLayer.updateShoppingList(consumerShoppingList);
-        customerDataLayer.updateCustomerRecord(customer);
     }
 }

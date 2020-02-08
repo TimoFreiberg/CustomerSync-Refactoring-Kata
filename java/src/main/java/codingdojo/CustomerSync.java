@@ -48,8 +48,10 @@ public class CustomerSync {
     private void updateRelations(ExternalCustomer externalCustomer, Customer customer) {
         List<ShoppingList> consumerShoppingLists = externalCustomer.getShoppingLists();
         for (ShoppingList consumerShoppingList : consumerShoppingLists) {
-            this.customerDataAccess.updateShoppingList(customer, consumerShoppingList);
+            customer.addShoppingList(consumerShoppingList);
+            this.customerDataAccess.updateShoppingList(consumerShoppingList);
         }
+        customerDataAccess.updateCustomerRecord(customer);
     }
 
     private void updateCustomer(Customer customer) {
