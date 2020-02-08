@@ -34,10 +34,6 @@ public class CustomerSync {
 
         populateFields(externalCustomer, customer);
 
-        updateCustomer(customer);
-
-
-
         if (customerMatches.hasDuplicates()) {
             for (Customer duplicate : customerMatches.getDuplicates()) {
                 updateDuplicate(externalCustomer, duplicate);
@@ -46,6 +42,8 @@ public class CustomerSync {
 
         updateRelations(externalCustomer, customer);
         updatePreferredStore(externalCustomer, customer);
+
+        updateCustomer(customer);
 
         return newCustomer;
     }
