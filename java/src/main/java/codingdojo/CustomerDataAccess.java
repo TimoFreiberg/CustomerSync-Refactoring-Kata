@@ -37,22 +37,20 @@ public class CustomerDataAccess {
             if (matchByCompanyNumber != null) {
                 matches.setCustomer(matchByCompanyNumber);
                 matches.setMatchTerm("CompanyNumber");
-            }
-        }
 
-        if (matches.getCustomer() != null && !CustomerType.COMPANY.equals(matches.getCustomer().getCustomerType())) {
-            throw new ConflictException("Existing customer for externalCustomer " + externalId + " already exists and is not a company");
-        }
-        
-        if ("CompanyNumber".equals(matches.getMatchTerm())) {
-            String customerExternalId = matches.getCustomer().getExternalId();
-            if (customerExternalId != null && !externalId.equals(customerExternalId)) {
-                throw new ConflictException("Existing customer for externalCustomer " + companyNumber + " doesn't match external id " + externalId + " instead found " + customerExternalId);
+                if (matches.getCustomer() != null && !CustomerType.COMPANY.equals(matches.getCustomer().getCustomerType())) {
+                    throw new ConflictException("Existing customer for externalCustomer " + externalId + " already exists and is not a company");
+                }
+
+                String customerExternalId = matches.getCustomer().getExternalId();
+                if (customerExternalId != null && !externalId.equals(customerExternalId)) {
+                    throw new ConflictException("Existing customer for externalCustomer " + companyNumber + " doesn't match external id " + externalId + " instead found " + customerExternalId);
+                }
+                Customer customer = matches.getCustomer();
+                customer.setExternalId(externalId);
+                customer.setMasterExternalId(externalId);
+                matches.addDuplicate(null);
             }
-            Customer customer = matches.getCustomer();
-            customer.setExternalId(externalId);
-            customer.setMasterExternalId(externalId);
-            matches.addDuplicate(null);
         }
 
         return matches;
