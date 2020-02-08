@@ -51,7 +51,6 @@ public class CustomerSync {
             customer.addShoppingList(consumerShoppingList);
             this.customerDataAccess.updateShoppingList(consumerShoppingList);
         }
-        customerDataAccess.updateCustomerRecord(customer);
     }
 
     private void updateCustomer(Customer customer) {
