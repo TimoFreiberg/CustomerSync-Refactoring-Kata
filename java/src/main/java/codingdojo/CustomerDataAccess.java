@@ -43,7 +43,7 @@ public class CustomerDataAccess {
                 matchByCompanyNumber,
                 customerDataLayer.createCustomerRecord(Customer.fromExternalId(externalId))
         ).with(new CompanyCustomerFoundByByCompanyNumber(matchByCompanyNumber, externalId),
-                new DuplicateCustomerToCreate());
+                new CreateDuplicateCustomer());
     }
 
     private CustomerMatches loadCompanyCustomerByExternalId(String externalId, String companyNumber) {
@@ -58,9 +58,11 @@ public class CustomerDataAccess {
 
         if (!companyNumber.equals(matchByExternalId.getCompanyNumber())) {
             matchByExternalId.setMasterExternalId(null);
-            return new CustomerMatches(null, matchByExternalId, this.customerDataLayer.findByMasterExternalId(externalId));
+            return new CustomerMatches(null, matchByExternalId, this.customerDataLayer.findByMasterExternalId(externalId))
+                    .with(new CreateCustomer());
         } else {
-            return new CustomerMatches(matchByExternalId, this.customerDataLayer.findByMasterExternalId(externalId));
+            return new CustomerMatches(matchByExternalId, this.customerDataLayer.findByMasterExternalId(externalId))
+                    .with(new CompanyCustomer(matchByExternalId, externalId));
         }
     }
 

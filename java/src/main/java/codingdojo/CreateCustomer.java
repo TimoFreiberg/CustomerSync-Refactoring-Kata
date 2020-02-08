@@ -1,6 +1,6 @@
 package codingdojo;
 
-public class DuplicateCustomerToCreate implements Bla {
+public class CreateCustomer implements Bla {
     Customer customer;
 
     @Override
