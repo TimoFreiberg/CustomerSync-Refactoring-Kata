@@ -16,9 +16,12 @@ public class CustomerSync {
 
         CustomerMatches customerMatches;
         if (externalCustomer.isCompany()) {
-            customerMatches = loadCompany(externalCustomer);
+            customerMatches = customerDataAccess.loadCompanyCustomer(
+                    externalCustomer.getExternalId(),
+                    externalCustomer.getCompanyNumber()
+            );
         } else {
-            customerMatches = loadPerson(externalCustomer);
+            customerMatches = customerDataAccess.loadPersonCustomer(externalCustomer.getExternalId());
         }
         Customer customer = customerMatches.getCustomer();
 
@@ -51,27 +54,4 @@ public class CustomerSync {
         this.customerDataAccess.updateCustomerRecord(duplicate);
     }
 
-    public CustomerMatches loadCompany(ExternalCustomer externalCustomer) {
-        return customerDataAccess.loadCompanyCustomer(externalCustomer.getExternalId(), externalCustomer.getCompanyNumber());
-    }
-
-    public CustomerMatches loadPerson(ExternalCustomer externalCustomer) {
-        final String externalId = externalCustomer.getExternalId();
-
-        CustomerMatches customerMatches = customerDataAccess.loadPersonCustomer(externalId);
-
-        if (customerMatches.getCustomer() != null) {
-            if (!CustomerType.PERSON.equals(customerMatches.getCustomer().getCustomerType())) {
-                throw new ConflictException("Existing customer for externalCustomer " + externalId + " already exists and is not a person");
-            }
-
-            if (!"ExternalId".equals(customerMatches.getMatchTerm())) {
-                Customer customer = customerMatches.getCustomer();
-                customer.setExternalId(externalId);
-                customer.setMasterExternalId(externalId);
-            }
-        }
-
-        return customerMatches;
-    }
 }
