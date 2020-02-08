@@ -46,9 +46,7 @@ public class CustomerSync {
 
     private void updateDuplicate(ExternalCustomer externalCustomer, Customer duplicate) {
         if (duplicate == null) {
-            duplicate = new Customer();
-            duplicate.setExternalId(externalCustomer.getExternalId());
-            duplicate.setMasterExternalId(externalCustomer.getExternalId());
+            duplicate = Customer.fromExternalId(externalCustomer.getExternalId());
             duplicate.setName(externalCustomer.getName());
             this.customerDataAccess.createCustomerRecord(duplicate);
         } else {
