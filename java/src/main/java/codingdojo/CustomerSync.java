@@ -24,7 +24,8 @@ public class CustomerSync {
         }
         Customer customer = customerMatches.getCustomer();
 
-        if (customer == null) {
+        boolean newCustomer = customer == null;
+        if (newCustomer) {
             customer = new Customer();
             customer.setExternalId(externalCustomer.getExternalId());
             customer.setMasterExternalId(externalCustomer.getExternalId());
@@ -32,10 +33,8 @@ public class CustomerSync {
 
         populateFields(externalCustomer, customer);
 
-        boolean created = false;
-        if (customer.getInternalId() == null) {
+        if (newCustomer) {
             customer = createCustomer(customer);
-            created = true;
         } else {
             updateCustomer(customer);
         }
@@ -50,7 +49,7 @@ public class CustomerSync {
         updateRelations(externalCustomer, customer);
         updatePreferredStore(externalCustomer, customer);
 
-        return created;
+        return newCustomer;
     }
 
     private void updateRelations(ExternalCustomer externalCustomer, Customer customer) {
