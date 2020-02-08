@@ -58,19 +58,13 @@ public class CustomerDataAccess {
             throw new ConflictException("Existing customer for externalCustomer " + externalId + " already exists and is not a company");
         }
 
-//        CustomerMatches matches = new CustomerMatches();
         String customerCompanyNumber = matchByExternalId.getCompanyNumber();
         if (!companyNumber.equals(customerCompanyNumber)) {
             matchByExternalId.setMasterExternalId(null);
             return new CustomerMatches(null, matchByExternalId, this.customerDataLayer.findByMasterExternalId(externalId));
-//            matches.addDuplicate(matchByExternalId);
         } else {
             return new CustomerMatches(matchByExternalId, this.customerDataLayer.findByMasterExternalId(externalId));
-//            matches.setCustomer(matchByExternalId);
         }
-
-//        matches.addDuplicate(this.customerDataLayer.findByMasterExternalId(externalId));
-//        return matches;
     }
 
     public CustomerMatches loadPersonCustomer(String externalId) {
