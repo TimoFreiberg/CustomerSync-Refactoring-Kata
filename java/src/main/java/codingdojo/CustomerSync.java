@@ -35,9 +35,9 @@ public class CustomerSync {
 
         if (newCustomer) {
             customer = createCustomer(customer);
-        } else {
-            updateCustomer(customer);
         }
+        updateCustomer(customer);
+        
         updateContactInfo(externalCustomer, customer);
 
         if (customerMatches.hasDuplicates()) {
@@ -123,7 +123,7 @@ public class CustomerSync {
         } else if ("CompanyNumber".equals(customerMatches.getMatchTerm())) {
             String customerExternalId = customerMatches.getCustomer().getExternalId();
             if (customerExternalId != null && !externalId.equals(customerExternalId)) {
-                throw new ConflictException("Existing customer for externalCustomer " + companyNumber + " doesn't match external id " + externalId + " instead found " + customerExternalId );
+                throw new ConflictException("Existing customer for externalCustomer " + companyNumber + " doesn't match external id " + externalId + " instead found " + customerExternalId);
             }
             Customer customer = customerMatches.getCustomer();
             customer.setExternalId(externalId);
