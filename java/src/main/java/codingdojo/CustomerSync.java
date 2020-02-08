@@ -55,12 +55,7 @@ public class CustomerSync {
     }
 
     private void updateCustomer(ExternalCustomer externalCustomer, Customer customer) {
-        customer.setName(externalCustomer.getName());
-        customer.setCompanyNumber(externalCustomer.getCompanyNumber());
-        customer.setCustomerType(externalCustomer.getCustomerType());
-        customer.setAddress(externalCustomer.getPostalAddress());
-        customer.setPreferredStore(externalCustomer.getPreferredStore());
-        customer.addShoppingLists(externalCustomer.getShoppingLists());
+        customer.importExternalData(externalCustomer);
     }
 
     public CustomerMatches loadCompany(ExternalCustomer externalCustomer) {

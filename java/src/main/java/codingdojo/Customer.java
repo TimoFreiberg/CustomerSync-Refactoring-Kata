@@ -73,6 +73,15 @@ public class Customer {
         this.shoppingLists = shoppingLists;
     }
 
+    public void importExternalData(ExternalCustomer externalCustomer) {
+        this.setName(externalCustomer.getName());
+        this.setCompanyNumber(externalCustomer.getCompanyNumber());
+        this.setCustomerType(externalCustomer.getCustomerType());
+        this.setAddress(externalCustomer.getPostalAddress());
+        this.setPreferredStore(externalCustomer.getPreferredStore());
+        this.addShoppingLists(externalCustomer.getShoppingLists());
+    }
+
     public String getName() {
         return name;
     }
