@@ -27,7 +27,7 @@ public class CustomerSync {
             customer = createCustomer(externalCustomer);
         }
 
-        populateFields(externalCustomer, customer);
+        updateCustomer(externalCustomer, customer);
 
         for (Customer duplicate : customerMatches.getDuplicates()) {
             updateDuplicate(externalCustomer, duplicate);
@@ -60,7 +60,7 @@ public class CustomerSync {
         }
     }
 
-    private void populateFields(ExternalCustomer externalCustomer, Customer customer) {
+    private void updateCustomer(ExternalCustomer externalCustomer, Customer customer) {
         customer.setName(externalCustomer.getName());
         customer.setCompanyNumber(externalCustomer.getCompanyNumber());
         customer.setCustomerType(externalCustomer.getCustomerType());
