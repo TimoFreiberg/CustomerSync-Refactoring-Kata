@@ -45,11 +45,6 @@ public class CustomerSync {
     }
 
     private void updateDuplicate(ExternalCustomer externalCustomer, Customer duplicate) {
-        if (duplicate == null) {
-            duplicate = this.customerDataAccess.createCustomerRecord(
-                    Customer.fromExternalId(externalCustomer.getExternalId())
-            );
-        }
         duplicate.setName(externalCustomer.getName());
         this.customerDataAccess.updateCustomerRecord(duplicate);
     }

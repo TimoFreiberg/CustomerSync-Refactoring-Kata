@@ -45,7 +45,7 @@ public class CustomerDataAccess {
                 matchByCompanyNumber.setMasterExternalId(externalId);
 
                 matches.setCustomer(matchByCompanyNumber);
-                matches.addDuplicate(null);
+                matches.addDuplicate(createCustomerRecord(Customer.fromExternalId(externalId)));
             }
         }
 
