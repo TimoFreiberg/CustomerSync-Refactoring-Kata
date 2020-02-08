@@ -3,13 +3,13 @@ package codingdojo;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class CustomerMatches {
     private Collection<Customer> duplicates;
     private Customer customer;
-    private Collection<Bla> blas;
+    private Collection<CustomerMatch> matches;
+    private boolean primaryCustomerCreated = false;
 
     public CustomerMatches() {
         this.duplicates = new ArrayList<>();
@@ -20,12 +20,16 @@ public class CustomerMatches {
         this.customer = customer;
     }
 
-    public Iterable<Bla> matches() {
-        return List.of();
+    public Iterable<CustomerMatch> matches() {
+        return matches;
     }
 
-    public CustomerMatches with(Bla... blas) {
-        this.blas = new ArrayList(Arrays.asList(blas));
+    public CustomerMatches with(CustomerMatch... matches) {
+        for (CustomerMatch match : matches) {
+            this.primaryCustomerCreated |= match.createsPrimaryCustomer();
+        }
+
+        this.matches = new ArrayList(Arrays.asList(matches));
         return this;
     }
 
@@ -45,5 +49,9 @@ public class CustomerMatches {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public boolean isPrimaryCustomerCreated() {
+        return primaryCustomerCreated;
     }
 }

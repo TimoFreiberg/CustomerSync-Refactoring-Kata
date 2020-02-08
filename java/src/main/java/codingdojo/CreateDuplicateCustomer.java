@@ -1,16 +1,21 @@
 package codingdojo;
 
-public class CreateDuplicateCustomer implements Bla {
+public class CreateDuplicateCustomer implements CustomerMatch {
     Customer customer;
 
     @Override
-    public void importExternalData(ExternalCustomer externalCustomer, CustomerDataAccess customerDataAccess) {
-        customer = customerDataAccess.createCustomerRecord(Customer.fromExternalId(externalCustomer.getExternalId()));
+    public void importExternalData(ExternalCustomer externalCustomer) {
+        customer = Customer.fromExternalId(externalCustomer.getExternalId());
         customer.setName(externalCustomer.getName());
     }
 
     @Override
     public void persist(CustomerDataAccess customerDataAccess) {
-        customerDataAccess.updateCustomerRecord(customer);
+        customerDataAccess.createCustomerRecord(customer);
+    }
+
+    @Override
+    public boolean createsPrimaryCustomer() {
+        return false;
     }
 }

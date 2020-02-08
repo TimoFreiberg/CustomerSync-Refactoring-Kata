@@ -1,6 +1,6 @@
 package codingdojo;
 
-public class CompanyCustomerFoundByByCompanyNumber implements Bla {
+public class CompanyCustomerFoundByByCompanyNumber implements CustomerMatch {
     private Customer customer;
 
     public CompanyCustomerFoundByByCompanyNumber(Customer customer, String externalId) {
@@ -21,7 +21,7 @@ public class CompanyCustomerFoundByByCompanyNumber implements Bla {
     }
 
     @Override
-    public void importExternalData(ExternalCustomer externalCustomer, CustomerDataAccess customerDataAccess) {
+    public void importExternalData(ExternalCustomer externalCustomer) {
         customer.setExternalId(externalCustomer.getExternalId());
         customer.setMasterExternalId(externalCustomer.getExternalId());
         customer.importExternalData(externalCustomer);
@@ -30,5 +30,10 @@ public class CompanyCustomerFoundByByCompanyNumber implements Bla {
     @Override
     public void persist(CustomerDataAccess customerDataAccess) {
         customerDataAccess.updateCustomerRecord(customer);
+    }
+
+    @Override
+    public boolean createsPrimaryCustomer() {
+        return false;
     }
 }

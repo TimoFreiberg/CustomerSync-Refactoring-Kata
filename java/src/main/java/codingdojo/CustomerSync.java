@@ -23,31 +23,15 @@ public class CustomerSync {
         } else {
             customerMatches = customerDataAccess.loadPersonCustomer(externalCustomer.getExternalId());
         }
-        Customer customer = customerMatches.getCustomer();
 
-        boolean newCustomer = customer == null;
-        if (newCustomer) {
-            customer = this.customerDataAccess.createCustomerRecord(
-                    Customer.fromExternalId(externalCustomer.getExternalId())
-            );
-        }
-
-        customerMatches.matches().forEach(match -> {
-            match.importExternalData(externalCustomer, this.customerDataAccess);
+        for (CustomerMatch match : customerMatches.matches()) {
+            match.importExternalData(externalCustomer);
             match.persist(this.customerDataAccess);
-        });
-
-        customer.importExternalData(externalCustomer);
-
-        for (Customer duplicate : customerMatches.getDuplicates()) {
-            duplicate.setName(externalCustomer.getName());
-            this.customerDataAccess.updateCustomerRecord(duplicate);
         }
 
         this.customerDataAccess.updateShoppingLists(externalCustomer.getShoppingLists());
-        this.customerDataAccess.updateCustomerRecord(customer);
 
-        return newCustomer;
+        return customerMatches.isPrimaryCustomerCreated();
     }
 
 }

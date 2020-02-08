@@ -1,11 +1,11 @@
 package codingdojo;
 
-public class CompanyCustomer implements CustomerMatch {
+public class PrivateCustomer implements CustomerMatch {
     private Customer customer;
 
-    public CompanyCustomer(Customer customer, String externalId) {
-        if (!CustomerType.COMPANY.equals(customer.getCustomerType())) {
-            throw new ConflictException("Existing customer for externalCustomer " + externalId + " already exists and is not a company");
+    public PrivateCustomer(Customer customer, String externalId) {
+        if (customer != null && !CustomerType.PERSON.equals(customer.getCustomerType())) {
+            throw new ConflictException("Existing customer for externalCustomer " + externalId + " already exists and is not a person");
         }
         this.customer = customer;
     }
