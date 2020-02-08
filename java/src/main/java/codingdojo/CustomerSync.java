@@ -52,8 +52,8 @@ public class CustomerSync {
         }
     }
 
-    private Customer updateCustomer(Customer customer) {
-        return this.customerDataAccess.updateCustomerRecord(customer);
+    private void updateCustomer(Customer customer) {
+        this.customerDataAccess.updateCustomerRecord(customer);
     }
 
     private void updateDuplicate(ExternalCustomer externalCustomer, Customer duplicate) {
