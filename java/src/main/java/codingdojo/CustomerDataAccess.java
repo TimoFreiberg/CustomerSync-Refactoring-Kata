@@ -11,46 +11,54 @@ public class CustomerDataAccess {
     }
 
     public CustomerMatches loadCompanyCustomer(String externalId, String companyNumber) {
-        CustomerMatches matches2 = new CustomerMatches();
-        Customer matchByExternalId = this.customerDataLayer.findByExternalId(externalId);
-        if (matchByExternalId != null) {
-            CustomerMatches matches = new CustomerMatches();
-            if (!CustomerType.COMPANY.equals(matchByExternalId.getCustomerType())) {
+
+        CustomerMatches matches = loadCompanyCustomerByExternalId(externalId, companyNumber);
+        if (matches != null) {
+            return matches;
+        }
+
+        matches = new CustomerMatches();
+        Customer matchByCompanyNumber = this.customerDataLayer.findByCompanyNumber(companyNumber);
+        if (matchByCompanyNumber != null) {
+            if (!CustomerType.COMPANY.equals(matchByCompanyNumber.getCustomerType())) {
                 throw new ConflictException("Existing customer for externalCustomer " + externalId + " already exists and is not a company");
             }
 
-            String customerCompanyNumber = matchByExternalId.getCompanyNumber();
-            if (!companyNumber.equals(customerCompanyNumber)) {
-                matchByExternalId.setMasterExternalId(null);
-                matches.addDuplicate(matchByExternalId);
-            } else {
-                matches.setCustomer(matchByExternalId);
+            String customerExternalId = matchByCompanyNumber.getExternalId();
+            if (customerExternalId != null && !externalId.equals(customerExternalId)) {
+                throw new ConflictException("Existing customer for externalCustomer " + companyNumber + " doesn't match external id " + externalId + " instead found " + customerExternalId);
             }
+            matchByCompanyNumber.setExternalId(externalId);
+            matchByCompanyNumber.setMasterExternalId(externalId);
 
-            matches.addDuplicate(this.customerDataLayer.findByMasterExternalId(externalId));
-            matches2 = matches;
-        } else {
-            CustomerMatches matches = new CustomerMatches();
-            Customer matchByCompanyNumber = this.customerDataLayer.findByCompanyNumber(companyNumber);
-            if (matchByCompanyNumber != null) {
-                if (!CustomerType.COMPANY.equals(matchByCompanyNumber.getCustomerType())) {
-                    throw new ConflictException("Existing customer for externalCustomer " + externalId + " already exists and is not a company");
-                }
-
-                String customerExternalId = matchByCompanyNumber.getExternalId();
-                if (customerExternalId != null && !externalId.equals(customerExternalId)) {
-                    throw new ConflictException("Existing customer for externalCustomer " + companyNumber + " doesn't match external id " + externalId + " instead found " + customerExternalId);
-                }
-                matchByCompanyNumber.setExternalId(externalId);
-                matchByCompanyNumber.setMasterExternalId(externalId);
-
-                matches.setCustomer(matchByCompanyNumber);
-                matches.addDuplicate(createCustomerRecord(Customer.fromExternalId(externalId)));
-            }
-            matches2 = matches;
+            matches.setCustomer(matchByCompanyNumber);
+            matches.addDuplicate(createCustomerRecord(Customer.fromExternalId(externalId)));
         }
 
-        return matches2;
+        return matches;
+    }
+
+    private CustomerMatches loadCompanyCustomerByExternalId(String externalId, String companyNumber) {
+        Customer matchByExternalId = this.customerDataLayer.findByExternalId(externalId);
+        if (matchByExternalId == null) {
+            return null;
+        }
+
+        CustomerMatches matches = new CustomerMatches();
+        if (!CustomerType.COMPANY.equals(matchByExternalId.getCustomerType())) {
+            throw new ConflictException("Existing customer for externalCustomer " + externalId + " already exists and is not a company");
+        }
+
+        String customerCompanyNumber = matchByExternalId.getCompanyNumber();
+        if (!companyNumber.equals(customerCompanyNumber)) {
+            matchByExternalId.setMasterExternalId(null);
+            matches.addDuplicate(matchByExternalId);
+        } else {
+            matches.setCustomer(matchByExternalId);
+        }
+
+        matches.addDuplicate(this.customerDataLayer.findByMasterExternalId(externalId));
+        return matches;
     }
 
     public CustomerMatches loadPersonCustomer(String externalId) {
