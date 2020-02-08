@@ -17,13 +17,38 @@ public class CustomerDataAccess {
             matches.setCustomer(matchByExternalId);
             matches.setMatchTerm("ExternalId");
             Customer matchByMasterId = this.customerDataLayer.findByMasterExternalId(externalId);
-            if (matchByMasterId != null) matches.addDuplicate(matchByMasterId);
+            if (matchByMasterId != null) {
+                matches.addDuplicate(matchByMasterId);
+            }
         } else {
             Customer matchByCompanyNumber = this.customerDataLayer.findByCompanyNumber(companyNumber);
             if (matchByCompanyNumber != null) {
                 matches.setCustomer(matchByCompanyNumber);
                 matches.setMatchTerm("CompanyNumber");
             }
+        }
+
+        if (matches.getCustomer() != null && !CustomerType.COMPANY.equals(matches.getCustomer().getCustomerType())) {
+            throw new ConflictException("Existing customer for externalCustomer " + externalId + " already exists and is not a company");
+        }
+
+        if ("ExternalId".equals(matches.getMatchTerm())) {
+            String customerCompanyNumber = matches.getCustomer().getCompanyNumber();
+            if (!companyNumber.equals(customerCompanyNumber)) {
+                matches.getCustomer().setMasterExternalId(null);
+                matches.addDuplicate(matches.getCustomer());
+                matches.setCustomer(null);
+                matches.setMatchTerm(null);
+            }
+        } else if ("CompanyNumber".equals(matches.getMatchTerm())) {
+            String customerExternalId = matches.getCustomer().getExternalId();
+            if (customerExternalId != null && !externalId.equals(customerExternalId)) {
+                throw new ConflictException("Existing customer for externalCustomer " + companyNumber + " doesn't match external id " + externalId + " instead found " + customerExternalId);
+            }
+            Customer customer = matches.getCustomer();
+            customer.setExternalId(externalId);
+            customer.setMasterExternalId(externalId);
+            matches.addDuplicate(null);
         }
 
         return matches;
