@@ -15,7 +15,6 @@ public class CustomerDataAccess {
         Customer matchByExternalId = this.customerDataLayer.findByExternalId(externalId);
         if (matchByExternalId != null) {
             matches.setCustomer(matchByExternalId);
-            matches.setMatchTerm("ExternalId");
             Customer matchByMasterId = this.customerDataLayer.findByMasterExternalId(externalId);
             if (matchByMasterId != null) {
                 matches.addDuplicate(matchByMasterId);
@@ -30,13 +29,11 @@ public class CustomerDataAccess {
                 matches.getCustomer().setMasterExternalId(null);
                 matches.addDuplicate(matches.getCustomer());
                 matches.setCustomer(null);
-                matches.setMatchTerm(null);
             }
         } else {
             Customer matchByCompanyNumber = this.customerDataLayer.findByCompanyNumber(companyNumber);
             if (matchByCompanyNumber != null) {
                 matches.setCustomer(matchByCompanyNumber);
-                matches.setMatchTerm("CompanyNumber");
 
                 if (matches.getCustomer() != null && !CustomerType.COMPANY.equals(matches.getCustomer().getCustomerType())) {
                     throw new ConflictException("Existing customer for externalCustomer " + externalId + " already exists and is not a company");
