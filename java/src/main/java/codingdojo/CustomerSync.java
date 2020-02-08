@@ -49,13 +49,10 @@ public class CustomerSync {
             duplicate = new Customer();
             duplicate.setExternalId(externalCustomer.getExternalId());
             duplicate.setMasterExternalId(externalCustomer.getExternalId());
-        }
-
-        duplicate.setName(externalCustomer.getName());
-
-        if (duplicate.getInternalId() == null) {
+            duplicate.setName(externalCustomer.getName());
             this.customerDataAccess.createCustomerRecord(duplicate);
         } else {
+            duplicate.setName(externalCustomer.getName());
             this.customerDataAccess.updateCustomerRecord(duplicate);
         }
     }
