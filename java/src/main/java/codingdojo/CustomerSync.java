@@ -29,15 +29,13 @@ public class CustomerSync {
             customer = new Customer();
             customer.setExternalId(externalCustomer.getExternalId());
             customer.setMasterExternalId(externalCustomer.getExternalId());
+            customer = createCustomer(customer);
         }
 
         populateFields(externalCustomer, customer);
 
-        if (newCustomer) {
-            customer = createCustomer(customer);
-        }
         updateCustomer(customer);
-        
+
         updateContactInfo(externalCustomer, customer);
 
         if (customerMatches.hasDuplicates()) {
