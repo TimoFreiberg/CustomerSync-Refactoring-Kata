@@ -47,7 +47,7 @@ public class CustomerSync {
 
     private void updateRelations(ExternalCustomer externalCustomer, Customer customer) {
         List<ShoppingList> consumerShoppingLists = externalCustomer.getShoppingLists();
-        customer.addShoppingLists(consumerShoppingLists);
+
         for (ShoppingList consumerShoppingList : consumerShoppingLists) {
             this.customerDataAccess.updateShoppingList(consumerShoppingList);
         }
@@ -83,6 +83,7 @@ public class CustomerSync {
         customer.setCustomerType(externalCustomer.getCustomerType());
         customer.setAddress(externalCustomer.getPostalAddress());
         customer.setPreferredStore(externalCustomer.getPreferredStore());
+        customer.addShoppingLists(externalCustomer.getShoppingLists());
     }
 
     public CustomerMatches loadCompany(ExternalCustomer externalCustomer) {
