@@ -62,4 +62,11 @@ public class ExternalCustomer {
         this.address = address;
     }
 
+    public CustomerType getCustomerType() {
+        if (isCompany()) {
+            return CustomerType.COMPANY;
+        } else {
+            return CustomerType.PERSON;
+        }
+    }
 }
