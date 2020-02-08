@@ -1,11 +1,22 @@
 package codingdojo;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 public class CustomerMatches {
-    private Collection<Customer> duplicates = new ArrayList<>();
+    private Collection<Customer> duplicates;
     private Customer customer;
+
+    public CustomerMatches() {
+        this.duplicates = new ArrayList<>();
+    }
+
+    public CustomerMatches(Customer customer, Customer... duplicates) {
+        this.duplicates = Arrays.stream(duplicates).filter(x -> x != null).collect(Collectors.toList());
+        this.customer = customer;
+    }
 
     public Customer getCustomer() {
         return customer;
