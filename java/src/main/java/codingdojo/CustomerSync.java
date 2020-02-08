@@ -39,7 +39,6 @@ public class CustomerSync {
         }
 
         updateRelations(externalCustomer, customer);
-        updatePreferredStore(externalCustomer, customer);
 
         updateCustomer(customer);
 
@@ -73,10 +72,6 @@ public class CustomerSync {
         }
     }
 
-    private void updatePreferredStore(ExternalCustomer externalCustomer, Customer customer) {
-        customer.setPreferredStore(externalCustomer.getPreferredStore());
-    }
-
     private Customer createCustomer(Customer customer) {
         return this.customerDataAccess.createCustomerRecord(customer);
     }
@@ -86,6 +81,7 @@ public class CustomerSync {
         customer.setCompanyNumber(externalCustomer.getCompanyNumber());
         customer.setCustomerType(externalCustomer.getCustomerType());
         customer.setAddress(externalCustomer.getPostalAddress());
+        customer.setPreferredStore(externalCustomer.getPreferredStore());
     }
 
     public CustomerMatches loadCompany(ExternalCustomer externalCustomer) {
