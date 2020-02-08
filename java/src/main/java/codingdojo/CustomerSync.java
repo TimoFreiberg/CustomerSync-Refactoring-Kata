@@ -87,8 +87,8 @@ public class CustomerSync {
 
     private void populateFields(ExternalCustomer externalCustomer, Customer customer) {
         customer.setName(externalCustomer.getName());
+        customer.setCompanyNumber(externalCustomer.getCompanyNumber());
         if (externalCustomer.isCompany()) {
-            customer.setCompanyNumber(externalCustomer.getCompanyNumber());
             customer.setCustomerType(CustomerType.COMPANY);
         } else {
             customer.setCustomerType(CustomerType.PERSON);
