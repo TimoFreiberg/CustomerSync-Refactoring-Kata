@@ -36,7 +36,7 @@ public class CustomerSync {
 
         updateCustomer(customer);
 
-        updateContactInfo(externalCustomer, customer);
+
 
         if (customerMatches.hasDuplicates()) {
             for (Customer duplicate : customerMatches.getDuplicates()) {
@@ -93,9 +93,6 @@ public class CustomerSync {
         } else {
             customer.setCustomerType(CustomerType.PERSON);
         }
-    }
-
-    private void updateContactInfo(ExternalCustomer externalCustomer, Customer customer) {
         customer.setAddress(externalCustomer.getPostalAddress());
     }
 
