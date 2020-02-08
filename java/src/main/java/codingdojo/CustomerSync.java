@@ -38,17 +38,15 @@ public class CustomerSync {
             updateDuplicate(externalCustomer, duplicate);
         }
 
-        updateRelations(externalCustomer, customer);
+        updateShoppingLists(externalCustomer.getShoppingLists());
 
         updateCustomer(customer);
 
         return newCustomer;
     }
 
-    private void updateRelations(ExternalCustomer externalCustomer, Customer customer) {
-        List<ShoppingList> consumerShoppingLists = externalCustomer.getShoppingLists();
-
-        for (ShoppingList consumerShoppingList : consumerShoppingLists) {
+    private void updateShoppingLists(List<ShoppingList> shoppingLists) {
+        for (ShoppingList consumerShoppingList : shoppingLists) {
             this.customerDataAccess.updateShoppingList(consumerShoppingList);
         }
     }
