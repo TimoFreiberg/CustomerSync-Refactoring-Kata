@@ -31,10 +31,7 @@ public class CustomerDataAccess {
             return null;
         }
 
-        if (!CustomerType.COMPANY.equals(matchByCompanyNumber.getCustomerType())) {
-            throw new ConflictException("Existing customer for externalCustomer " + externalId + " already exists and is not a company");
-        }
-
+        // remove this validation step as soon as the setters are gone
         String customerExternalId = matchByCompanyNumber.getExternalId();
         if (customerExternalId != null && !externalId.equals(customerExternalId)) {
             throw new ConflictException("Existing customer for externalCustomer " + companyNumber + " doesn't match external id " + externalId + " instead found " + customerExternalId);
@@ -45,7 +42,7 @@ public class CustomerDataAccess {
         return new CustomerMatches(
                 matchByCompanyNumber,
                 customerDataLayer.createCustomerRecord(Customer.fromExternalId(externalId))
-        );
+        ).with(new CompanyCustomerFoundByByCompanyNumber(matchByCompanyNumber, externalId));
     }
 
     private CustomerMatches loadCompanyCustomerByExternalId(String externalId, String companyNumber) {

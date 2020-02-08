@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 public class CustomerMatches {
     private Collection<Customer> duplicates;
     private Customer customer;
+    private Collection<Bla> blas;
 
     public CustomerMatches() {
         this.duplicates = new ArrayList<>();
@@ -21,6 +22,11 @@ public class CustomerMatches {
 
     public Iterable<Bla> matches() {
         return List.of();
+    }
+
+    public CustomerMatches with(Bla... blas) {
+        this.blas = new ArrayList(Arrays.asList(blas));
+        return this;
     }
 
     public Customer getCustomer() {
