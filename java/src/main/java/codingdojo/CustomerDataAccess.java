@@ -55,20 +55,10 @@ public class CustomerDataAccess {
     public CustomerMatches loadPersonCustomer(String externalId) {
         CustomerMatches matches = new CustomerMatches();
         Customer matchByPersonalNumber = this.customerDataLayer.findByExternalId(externalId);
-        matches.setCustomer(matchByPersonalNumber);
         if (matchByPersonalNumber != null) {
-            matches.setMatchTerm("ExternalId");
-        }
-
-        if (matches.getCustomer() != null) {
+            matches.setCustomer(matchByPersonalNumber);
             if (!CustomerType.PERSON.equals(matches.getCustomer().getCustomerType())) {
                 throw new ConflictException("Existing customer for externalCustomer " + externalId + " already exists and is not a person");
-            }
-
-            if (!"ExternalId".equals(matches.getMatchTerm())) {
-                Customer customer = matches.getCustomer();
-                customer.setExternalId(externalId);
-                customer.setMasterExternalId(externalId);
             }
         }
         return matches;
