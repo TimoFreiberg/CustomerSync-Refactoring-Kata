@@ -27,7 +27,7 @@ public class CustomerSync {
             customer = createCustomer(externalCustomer);
         }
 
-        updateCustomer(externalCustomer, customer);
+        customer.importExternalData(externalCustomer);
 
         for (Customer duplicate : customerMatches.getDuplicates()) {
             updateDuplicate(externalCustomer, duplicate);
@@ -52,10 +52,6 @@ public class CustomerSync {
         }
         duplicate.setName(externalCustomer.getName());
         this.customerDataAccess.updateCustomerRecord(duplicate);
-    }
-
-    private void updateCustomer(ExternalCustomer externalCustomer, Customer customer) {
-        customer.importExternalData(externalCustomer);
     }
 
     public CustomerMatches loadCompany(ExternalCustomer externalCustomer) {
