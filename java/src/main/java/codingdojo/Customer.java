@@ -88,9 +88,7 @@ public class Customer {
     }
 
     public void addShoppingList(ShoppingList consumerShoppingList) {
-        ArrayList<ShoppingList> newList = new ArrayList<ShoppingList>(this.shoppingLists);
-        newList.add(consumerShoppingList);
-        this.setShoppingLists(newList);
+        this.shoppingLists.add(consumerShoppingList);
     }
 
 
