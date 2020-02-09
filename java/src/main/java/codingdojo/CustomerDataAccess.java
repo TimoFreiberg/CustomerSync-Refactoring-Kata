@@ -16,7 +16,7 @@ public class CustomerDataAccess {
     public List<CustomerMatch> loadCompanyCustomer(String externalId, String companyNumber) {
 
         List<CustomerMatch> matchesByExternalId = loadCompanyCustomerByExternalId(externalId, companyNumber);
-        if (matchesByExternalId != null) {
+        if (!matchesByExternalId.isEmpty()) {
             return matchesByExternalId;
         }
 
@@ -38,25 +38,22 @@ public class CustomerDataAccess {
 
     private List<CustomerMatch> loadCompanyCustomerByExternalId(String externalId, String companyNumber) {
         Optional<Customer> found = this.customerDataLayer.findByExternalId(externalId);
-        if (!found.isPresent()) {
-            return null;
-        }
 
-        List<CustomerMatch> matches = new ArrayList<>();
+        return found.stream().flatMap((Customer matchByExternalId) -> {
+            List<CustomerMatch> matches = new ArrayList<>();
 
-        Customer matchByExternalId = found.get();
-
-        if (!companyNumber.equals(matchByExternalId.getCompanyNumber())) {
-            matches.add(new CreateCustomer());
-            matches.add(new DuplicateCompanyCustomerWithMatchingCompanyId(matchByExternalId, externalId));
-        } else {
-            matches.add(new CompanyCustomer(matchByExternalId, externalId));
-        }
-        Optional<Customer> byMasterExternalId = this.customerDataLayer.findByMasterExternalId(externalId);
-        if (byMasterExternalId.isPresent()) {
-            matches.add(new DuplicateCompanyCustomer(byMasterExternalId.get()));
-        }
-        return matches;
+            if (!companyNumber.equals(matchByExternalId.getCompanyNumber())) {
+                matches.add(new CreateCustomer());
+                matches.add(new DuplicateCompanyCustomerWithMatchingCompanyId(matchByExternalId, externalId));
+            } else {
+                matches.add(new CompanyCustomer(matchByExternalId, externalId));
+            }
+            Optional<Customer> byMasterExternalId = this.customerDataLayer.findByMasterExternalId(externalId);
+            if (byMasterExternalId.isPresent()) {
+                matches.add(new DuplicateCompanyCustomer(byMasterExternalId.get()));
+            }
+            return matches.stream();
+        }).collect(Collectors.toList());
     }
 
     public List<CustomerMatch> loadPersonCustomer(String externalId) {
