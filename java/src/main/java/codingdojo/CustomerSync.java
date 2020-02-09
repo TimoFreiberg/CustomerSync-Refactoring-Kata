@@ -28,7 +28,7 @@ public class CustomerSync {
 
         boolean created = false;
         for (CustomerMatch match : customerMatches) {
-             created |= match.createsPrimaryCustomer();
+            created |= match.createsPrimaryCustomer();
             match.importExternalData(externalCustomer);
             match.persist(this.customerDataAccess);
         }
