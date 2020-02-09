@@ -3,6 +3,7 @@ package codingdojo;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class CustomerDataAccess {
 
@@ -20,7 +21,7 @@ public class CustomerDataAccess {
         }
 
         List<CustomerMatch> matchesByCompanyNumber = loadCompanyCustomerByCompanyNumber(externalId, companyNumber);
-        if (matchesByCompanyNumber != null) {
+        if (!matchesByCompanyNumber.isEmpty()) {
             return matchesByCompanyNumber;
         }
 
@@ -29,11 +30,10 @@ public class CustomerDataAccess {
 
     private List<CustomerMatch> loadCompanyCustomerByCompanyNumber(String externalId, String companyNumber) {
         Optional<Customer> matchByCompanyNumber = this.customerDataLayer.findByCompanyNumber(companyNumber);
-        if (!matchByCompanyNumber.isPresent()) {
-            return null;
-        }
-
-        return List.of(CompanyCustomerFoundByByCompanyNumber.fromNullable(matchByCompanyNumber.get(), externalId));
+        return matchByCompanyNumber
+                .map(match -> new CompanyCustomerFoundByByCompanyNumber(match, externalId))
+                .stream()
+                .collect(Collectors.toList());
     }
 
     private List<CustomerMatch> loadCompanyCustomerByExternalId(String externalId, String companyNumber) {
