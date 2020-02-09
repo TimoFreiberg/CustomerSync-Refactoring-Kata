@@ -1,4 +1,9 @@
-package codingdojo;
+package codingdojo.matches;
+
+import codingdojo.ConflictException;
+import codingdojo.Customer;
+import codingdojo.CustomerDataAccess;
+import codingdojo.ExternalCustomer;
 
 public class CompanyCustomerFoundByByCompanyNumber implements CustomerMatch {
     private Customer customer;

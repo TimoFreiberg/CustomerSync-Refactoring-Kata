@@ -1,5 +1,7 @@
 package codingdojo;
 
+import codingdojo.matches.CustomerMatch;
+
 import java.util.List;
 
 public class CustomerSync {

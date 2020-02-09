@@ -1,4 +1,8 @@
-package codingdojo;
+package codingdojo.matches;
+
+import codingdojo.Customer;
+import codingdojo.CustomerDataAccess;
+import codingdojo.ExternalCustomer;
 
 public class CreateCustomer implements CustomerMatch {
     Customer customer;

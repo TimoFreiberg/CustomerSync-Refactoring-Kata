@@ -1,4 +1,6 @@
-package codingdojo;
+package codingdojo.matches;
+
+import codingdojo.*;
 
 public class DuplicateCompanyCustomer implements CustomerMatch {
     private Customer customer;
