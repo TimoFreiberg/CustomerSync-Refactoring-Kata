@@ -3,7 +3,14 @@ package codingdojo;
 public class CompanyCustomerFoundByByCompanyNumber implements CustomerMatch {
     private Customer customer;
 
-    public CompanyCustomerFoundByByCompanyNumber(Customer customer, String externalId) {
+    private CompanyCustomerFoundByByCompanyNumber(Customer customer) {
+        this.customer = customer;
+    }
+
+    public static CustomerMatch fromNullable(Customer customer, String externalId) {
+        if (customer == null) {
+            return new NoOpMatch();
+        }
         if (customer.getCustomerType() != CustomerType.COMPANY) {
             throw new ConflictException("Existing customer for externalCustomer "
                     + externalId
@@ -17,7 +24,7 @@ public class CompanyCustomerFoundByByCompanyNumber implements CustomerMatch {
                     + externalId
                     + " instead found " + customerExternalId);
         }
-        this.customer = customer;
+        return new CompanyCustomerFoundByByCompanyNumber(customer);
     }
 
     @Override

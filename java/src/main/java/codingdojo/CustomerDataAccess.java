@@ -32,7 +32,7 @@ public class CustomerDataAccess {
             return null;
         }
 
-        return new CustomerMatches().with(new CompanyCustomerFoundByByCompanyNumber(matchByCompanyNumber, externalId));
+        return new CustomerMatches().with(CompanyCustomerFoundByByCompanyNumber.fromNullable(matchByCompanyNumber, externalId));
     }
 
     private CustomerMatches loadCompanyCustomerByExternalId(String externalId, String companyNumber) {
