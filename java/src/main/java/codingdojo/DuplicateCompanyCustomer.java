@@ -3,7 +3,10 @@ package codingdojo;
 public class DuplicateCompanyCustomer implements CustomerMatch {
     private Customer customer;
 
-    public DuplicateCompanyCustomer(Customer customer) {
+    public DuplicateCompanyCustomer(Customer customer, String externalId) {
+        if (!CustomerType.COMPANY.equals(customer.getCustomerType())) {
+            throw new ConflictException("Existing customer for externalCustomer " + externalId + " already exists and is not a company");
+        }
         this.customer = customer;
     }
 

@@ -44,13 +44,13 @@ public class CustomerDataAccess {
 
             if (!companyNumber.equals(matchByExternalId.getCompanyNumber())) {
                 matches.add(new CreateCustomer());
-                matches.add(new DuplicateCompanyCustomerWithMatchingCompanyId(matchByExternalId, externalId));
+                matches.add(new DuplicateCompanyCustomer(matchByExternalId, externalId));
             } else {
-                matches.add(new CompanyCustomer(matchByExternalId, externalId));
+                matches.add(new CompanyCustomer(matchByExternalId));
             }
             Optional<Customer> byMasterExternalId = this.customerDataLayer.findByMasterExternalId(externalId);
             if (byMasterExternalId.isPresent()) {
-                matches.add(new DuplicateCompanyCustomer(byMasterExternalId.get()));
+                matches.add(new DuplicateCompanyCustomer(byMasterExternalId.get(), externalId));
             }
             return matches.stream();
         }).collect(Collectors.toList());

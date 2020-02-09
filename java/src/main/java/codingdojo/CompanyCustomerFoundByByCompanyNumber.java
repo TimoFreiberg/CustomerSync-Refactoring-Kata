@@ -4,11 +4,6 @@ public class CompanyCustomerFoundByByCompanyNumber implements CustomerMatch {
     private Customer customer;
 
     public CompanyCustomerFoundByByCompanyNumber(Customer customer, String externalId) {
-        if (customer.getCustomerType() != CustomerType.COMPANY) {
-            throw new ConflictException("Existing customer for externalCustomer "
-                    + externalId
-                    + " already exists and is not a company");
-        }
         String customerExternalId = customer.getExternalId();
         if (customerExternalId != null && !externalId.equals(customerExternalId)) {
             throw new ConflictException("Existing customer for externalCustomer "
