@@ -12,31 +12,31 @@ public class CustomerDataAccess {
         this.customerDataLayer = customerDataLayer;
     }
 
-    public CustomerMatches loadCompanyCustomer(String externalId, String companyNumber) {
+    public List<CustomerMatch> loadCompanyCustomer(String externalId, String companyNumber) {
 
-        CustomerMatches matchesByExternalId = loadCompanyCustomerByExternalId(externalId, companyNumber);
+        List<CustomerMatch> matchesByExternalId = loadCompanyCustomerByExternalId(externalId, companyNumber);
         if (matchesByExternalId != null) {
             return matchesByExternalId;
         }
 
-        CustomerMatches matchesByCompanyNumber = loadCompanyCustomerByCompanyNumber(externalId, companyNumber);
+        List<CustomerMatch> matchesByCompanyNumber = loadCompanyCustomerByCompanyNumber(externalId, companyNumber);
         if (matchesByCompanyNumber != null) {
             return matchesByCompanyNumber;
         }
 
-        return new CustomerMatches().with(new CreateCustomer());
+        return List.of(new CreateCustomer());
     }
 
-    private CustomerMatches loadCompanyCustomerByCompanyNumber(String externalId, String companyNumber) {
+    private List<CustomerMatch> loadCompanyCustomerByCompanyNumber(String externalId, String companyNumber) {
         Optional<Customer> matchByCompanyNumber = this.customerDataLayer.findByCompanyNumber(companyNumber);
         if (!matchByCompanyNumber.isPresent()) {
             return null;
         }
 
-        return new CustomerMatches().with(CompanyCustomerFoundByByCompanyNumber.fromNullable(matchByCompanyNumber.get(), externalId));
+        return List.of(CompanyCustomerFoundByByCompanyNumber.fromNullable(matchByCompanyNumber.get(), externalId));
     }
 
-    private CustomerMatches loadCompanyCustomerByExternalId(String externalId, String companyNumber) {
+    private List<CustomerMatch> loadCompanyCustomerByExternalId(String externalId, String companyNumber) {
         Optional<Customer> found = this.customerDataLayer.findByExternalId(externalId);
         if (!found.isPresent()) {
             return null;
@@ -56,18 +56,16 @@ public class CustomerDataAccess {
         if (byMasterExternalId.isPresent()) {
             matches.add(new DuplicateCompanyCustomer(byMasterExternalId.get()));
         }
-        return new CustomerMatches().with(matches.toArray(new CustomerMatch[matches.size()]));
+        return matches;
     }
 
-    public CustomerMatches loadPersonCustomer(String externalId) {
+    public List<CustomerMatch> loadPersonCustomer(String externalId) {
         Optional<Customer> matchByPersonalNumber = this.customerDataLayer.findByExternalId(externalId);
-        CustomerMatch customer;
         if (matchByPersonalNumber.isPresent()) {
-            customer = new PrivateCustomer(matchByPersonalNumber.get(), externalId);
+            return List.of(new PrivateCustomer(matchByPersonalNumber.get(), externalId));
         } else {
-            customer = new CreateCustomer();
+            return List.of(new CreateCustomer());
         }
-        return new CustomerMatches().with(customer);
     }
 
     public Customer updateCustomerRecord(Customer customer) {

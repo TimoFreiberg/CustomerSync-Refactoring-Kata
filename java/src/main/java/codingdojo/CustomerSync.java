@@ -1,5 +1,7 @@
 package codingdojo;
 
+import java.util.List;
+
 public class CustomerSync {
 
     private final CustomerDataAccess customerDataAccess;
@@ -14,7 +16,7 @@ public class CustomerSync {
 
     public boolean syncWithDataLayer(ExternalCustomer externalCustomer) {
 
-        CustomerMatches customerMatches;
+        List<CustomerMatch> customerMatches;
         if (externalCustomer.isCompany()) {
             customerMatches = customerDataAccess.loadCompanyCustomer(
                     externalCustomer.getExternalId(),
@@ -24,14 +26,16 @@ public class CustomerSync {
             customerMatches = customerDataAccess.loadPersonCustomer(externalCustomer.getExternalId());
         }
 
-        for (CustomerMatch match : customerMatches.matches()) {
+        boolean created = false;
+        for (CustomerMatch match : customerMatches) {
+             created |= match.createsPrimaryCustomer();
             match.importExternalData(externalCustomer);
             match.persist(this.customerDataAccess);
         }
 
         this.customerDataAccess.updateShoppingLists(externalCustomer.getShoppingLists());
 
-        return customerMatches.isPrimaryCustomerCreated();
+        return created;
     }
 
 }
