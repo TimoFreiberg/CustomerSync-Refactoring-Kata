@@ -48,18 +48,18 @@ public class FakeDatabase implements CustomerDataLayer {
     }
 
     @Override
-    public Customer findByExternalId(String externalId) {
-        return this.customersByExternalId.get(externalId);
+    public  Optional<Customer> findByExternalId(String externalId) {
+        return Optional.ofNullable(this.customersByExternalId.get(externalId));
     }
 
     @Override
-    public Customer findByMasterExternalId(String masterExternalId) {
-        return this.customersByMasterExternalId.get(masterExternalId);
+    public  Optional<Customer> findByMasterExternalId(String masterExternalId) {
+        return Optional.ofNullable(this.customersByMasterExternalId.get(masterExternalId));
     }
 
     @Override
-    public Customer findByCompanyNumber(String companyNumber) {
-        return this.customersByCompanyNumber.get(companyNumber);
+    public Optional<Customer> findByCompanyNumber(String companyNumber) {
+        return Optional.ofNullable(this.customersByCompanyNumber.get(companyNumber));
     }
 
     public List<Customer> getAllCustomers() {
