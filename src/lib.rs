@@ -54,10 +54,17 @@ impl<Db: CustomerDataLayer> CustomerSync<Db> {
     }
 
     fn load_company(&self, external_customer: &ExternalCustomer) -> CustomerMatches {
-        CustomerMatches {}
+        let external_id = &external_customer.external_id;
+        let company_number = &external_customer.company_number;
+
+        let customer_matches = self
+            .customer_data_access
+            .load_company_customer(external_id, &company_number.clone().unwrap());
+
+        customer_matches
     }
     fn load_person(&self, external_customer: &ExternalCustomer) -> CustomerMatches {
-        CustomerMatches {}
+        CustomerMatches::new()
     }
 
     fn create_customer(&mut self, customer: Customer) -> Customer {
