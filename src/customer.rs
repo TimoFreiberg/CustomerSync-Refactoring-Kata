@@ -1,6 +1,6 @@
 use std::iter::FromIterator;
 
-#[derive(Clone)]
+#[derive(Clone, Default)]
 pub struct Customer {
     pub external_id: Option<String>,
     pub master_external_id: Option<String>,
@@ -15,17 +15,7 @@ pub struct Customer {
 
 impl Customer {
     pub fn new() -> Customer {
-        Customer {
-            external_id: None,
-            master_external_id: None,
-            name: None,
-            company_number: None,
-            customer_type: None,
-            internal_id: None,
-            address: None,
-            shopping_lists: Vec::new(),
-            preferred_store: None,
-        }
+        Customer::default()
     }
     pub fn add_shopping_list(&mut self, consumer_shopping_list: ShoppingList) {
         let mut new_list = Vec::from_iter(self.shopping_lists.drain(..));
@@ -46,7 +36,7 @@ pub struct ShoppingList {
     products: Vec<String>,
 }
 
-#[derive(Clone)]
+#[derive(Clone, PartialEq)]
 pub enum CustomerType {
     Company,
     Person,
