@@ -2,15 +2,23 @@ mod customer;
 mod data_access;
 mod external;
 
-use customer::{Customer, CustomerType};
-use data_access::{CustomerDataAccess, CustomerDataLayer, CustomerMatches};
-use external::ExternalCustomer;
+use data_access::{CustomerDataAccess, CustomerMatches};
+
+pub use customer::{Address, Customer, CustomerType, ShoppingList};
+pub use data_access::CustomerDataLayer;
+pub use external::ExternalCustomer;
 
 pub struct CustomerSync<Db> {
     customer_data_access: CustomerDataAccess<Db>,
 }
 
 impl<Db: CustomerDataLayer> CustomerSync<Db> {
+    pub fn new(db: Db) -> Self {
+        CustomerSync {
+            customer_data_access: CustomerDataAccess::new(db),
+        }
+    }
+
     pub fn sync_with_data_layer(
         &mut self,
         external_customer: ExternalCustomer,
@@ -24,8 +32,8 @@ impl<Db: CustomerDataLayer> CustomerSync<Db> {
 
         if customer.is_none() {
             let mut new_customer = Customer::new();
-            new_customer.external_id = Some(external_customer.external_id.clone());
-            new_customer.master_external_id = Some(external_customer.external_id.clone());
+            new_customer.external_id = external_customer.external_id.clone();
+            new_customer.master_external_id = external_customer.external_id.clone();
 
             customer = Some(new_customer);
         }
@@ -59,7 +67,7 @@ impl<Db: CustomerDataLayer> CustomerSync<Db> {
         &self,
         external_customer: &ExternalCustomer,
     ) -> Result<CustomerMatches, String> {
-        let external_id = &external_customer.external_id;
+        let external_id = external_customer.external_id.as_ref().unwrap();
         let company_number = &external_customer.company_number;
 
         let mut customer_matches = self
@@ -92,7 +100,7 @@ impl<Db: CustomerDataLayer> CustomerSync<Db> {
                 .as_ref()
                 .and_then(|customer| customer.external_id.clone());
             if let Some(customer_external_id) = customer_external_id {
-                if *external_id != customer_external_id {
+                if **external_id != customer_external_id {
                     return Err(format!("Existing customer for externalCustomer {} doesn't match external id {} instead found {}",
                         company_number.clone().unwrap(),
                         external_id,
@@ -109,7 +117,7 @@ impl<Db: CustomerDataLayer> CustomerSync<Db> {
         Ok(customer_matches)
     }
     fn load_person(&self, external_customer: &ExternalCustomer) -> Result<CustomerMatches, String> {
-        let external_id = external_customer.external_id.clone();
+        let external_id = external_customer.external_id.clone().unwrap();
 
         let mut customer_matches = self.customer_data_access.load_person_customer(&external_id);
 
@@ -150,14 +158,14 @@ impl<Db: CustomerDataLayer> CustomerSync<Db> {
         let mut duplicate = match duplicate {
             None => {
                 let mut duplicate = Customer::new();
-                duplicate.external_id = Some(external_customer.external_id.clone());
-                duplicate.master_external_id = Some(external_customer.external_id.clone());
+                duplicate.external_id = external_customer.external_id.clone();
+                duplicate.master_external_id = external_customer.external_id.clone();
                 duplicate
             }
             Some(duplicate) => duplicate,
         };
 
-        duplicate.name = Some(external_customer.name.clone());
+        duplicate.name = external_customer.name.clone();
         if duplicate.internal_id.is_none() {
             self.create_customer(duplicate);
         } else {
@@ -173,7 +181,7 @@ impl<Db: CustomerDataLayer> CustomerSync<Db> {
     }
 
     fn populate_fields(&mut self, external_customer: &ExternalCustomer, customer: &mut Customer) {
-        customer.name = Some(external_customer.name.clone());
+        customer.name = external_customer.name.clone();
         if external_customer.is_company() {
             customer.company_number = external_customer.company_number.clone();
             customer.customer_type = Some(CustomerType::Company);
@@ -187,7 +195,7 @@ impl<Db: CustomerDataLayer> CustomerSync<Db> {
         external_customer: &ExternalCustomer,
         customer: &mut Customer,
     ) {
-        customer.address = Some(external_customer.address.clone());
+        customer.address = external_customer.address.clone();
     }
 
     fn update_preferred_store(
@@ -195,6 +203,6 @@ impl<Db: CustomerDataLayer> CustomerSync<Db> {
         external_customer: &ExternalCustomer,
         customer: &mut Customer,
     ) {
-        customer.preferred_store = Some(external_customer.preferred_store.clone());
+        customer.preferred_store = external_customer.preferred_store.clone();
     }
 }

@@ -5,6 +5,12 @@ pub struct CustomerDataAccess<Db> {
 }
 
 impl<Db: CustomerDataLayer> CustomerDataAccess<Db> {
+    pub fn new(db: Db) -> Self {
+        CustomerDataAccess {
+            customer_data_layer: db,
+        }
+    }
+
     pub fn create_customer_record(&mut self, customer: Customer) -> Customer {
         self.customer_data_layer.create_customer_record(customer)
     }
