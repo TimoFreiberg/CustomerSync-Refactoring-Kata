@@ -28,7 +28,7 @@ impl FakeDataBase {
                 .insert(company_number, customer.clone());
         }
         if !customer.shopping_lists.is_empty() {
-            self.shopping_lists.extend(customer.shopping_lists.clone());
+            self.shopping_lists.extend(customer.shopping_lists);
         }
     }
     pub fn customers(&self) -> Vec<&Customer> {
@@ -38,9 +38,37 @@ impl FakeDataBase {
             .chain(self.customers_by_company_number.values())
             .chain(self.customers_by_external_id.values())
             .collect();
-        customers.sort();
+        customers.sort_by(|c1, c2| {
+            c1.internal_id
+                .cmp(&c2.internal_id)
+                .then(c1.name.cmp(&c2.name))
+        });
         customers.dedup();
         customers
+    }
+
+    pub fn shopping_lists(&self) -> &HashSet<ShoppingList> {
+        &self.shopping_lists
+    }
+
+    pub fn print_contents(&self) -> String {
+        let mut s = String::new();
+        s.push_str("Fake Database.\nAll Customers {\n");
+        for customer in self.customers() {
+            s.push_str(&format!("{:#?}", customer));
+            s.push('\n');
+        }
+
+        s.push('\n');
+        s.push_str("\nAll Shopping Lists\n");
+        let sorted_shopping_lists = {
+            let mut shopping_lists: Vec<_> = self.shopping_lists.iter().cloned().collect();
+            shopping_lists.sort_by_key(|shopping_list| format!("{:?}", shopping_list));
+            shopping_lists
+        };
+        s.push_str(&format!("{:#?}", sorted_shopping_lists));
+
+        s
     }
 }
 

@@ -19,15 +19,18 @@ fn sync_company_by_external_id() {
     let mut db = FakeDataBase::new();
     db.add_customer(customer);
 
+    let mut to_assert = print_before_state(&external_customer, &db);
+
     let mut sut = CustomerSync::new(&mut db);
 
     let created = sut.sync_with_data_layer(external_customer).unwrap();
 
     assert!(!created);
-    assert_eq!(
-        db.customers()[0].name.clone(),
-        Some(String::from("Acme Inc."))
-    );
+    assert_eq!(db.customers().len(), 1);
+
+    print_after_state(&db, &mut to_assert);
+
+    insta::assert_snapshot!(to_assert);
 }
 
 fn create_external_company() -> ExternalCustomer {
@@ -53,4 +56,20 @@ fn create_customer_with_same_company_as(external_customer: &ExternalCustomer) ->
     customer.internal_id = Some(String::from("45435"));
 
     customer
+}
+
+fn print_before_state(external_customer: &ExternalCustomer, db: &FakeDataBase) -> String {
+    let mut to_assert = String::new();
+    to_assert.push_str("BEFORE:\n");
+    to_assert.push_str(&db.print_contents());
+
+    to_assert.push_str("\nSYNCING THIS:\n");
+    to_assert.push_str(&format!("{:#?}", external_customer));
+
+    to_assert
+}
+
+fn print_after_state(db: &FakeDataBase, to_assert: &mut String) {
+    to_assert.push_str("\nAFTER:\n");
+    to_assert.push_str(&db.print_contents());
 }

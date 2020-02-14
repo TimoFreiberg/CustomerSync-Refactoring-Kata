@@ -1,6 +1,6 @@
 use crate::customer::{Address, ShoppingList};
 
-#[derive(Default)]
+#[derive(Default, Clone, Debug)]
 pub struct ExternalCustomer {
     pub address: Option<Address>,
     pub name: Option<String>,

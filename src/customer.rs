@@ -1,6 +1,6 @@
 use std::iter::FromIterator;
 
-#[derive(Clone, Default, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Clone, Default, PartialEq, Eq, PartialOrd, Ord, Debug)]
 pub struct Customer {
     pub external_id: Option<String>,
     pub master_external_id: Option<String>,
@@ -24,19 +24,19 @@ impl Customer {
     }
 }
 
-#[derive(Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Debug)]
 pub struct Address {
     pub street: String,
     pub city: String,
     pub postal_code: String,
 }
 
-#[derive(Clone, PartialEq, Eq, Hash, PartialOrd, Ord)]
+#[derive(Clone, PartialEq, Eq, Hash, PartialOrd, Ord, Debug)]
 pub struct ShoppingList {
     pub products: Vec<String>,
 }
 
-#[derive(Clone, PartialEq, Eq, Ord, PartialOrd)]
+#[derive(Clone, PartialEq, Eq, Ord, PartialOrd, Debug)]
 pub enum CustomerType {
     Company,
     Person,
