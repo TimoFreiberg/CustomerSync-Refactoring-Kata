@@ -5,25 +5,6 @@ expression: to_assert
 BEFORE:
 Fake Database.
 All Customers {
-Customer {
-    external_id: Some(
-        "12345",
-    ),
-    master_external_id: None,
-    company_number: Some(
-        "470813-8895",
-    ),
-    internal_id: Some(
-        "45435",
-    ),
-    name: None,
-    customer_type: Some(
-        Company,
-    ),
-    preferred_store: None,
-    address: None,
-    shopping_lists: [],
-}
 
 }
 All Shopping Lists
@@ -63,12 +44,14 @@ Customer {
     external_id: Some(
         "12345",
     ),
-    master_external_id: None,
+    master_external_id: Some(
+        "12345",
+    ),
     company_number: Some(
         "470813-8895",
     ),
     internal_id: Some(
-        "45435",
+        "fake internalId",
     ),
     name: Some(
         "Acme Inc.",

@@ -6,12 +6,10 @@ BEFORE:
 Fake Database.
 All Customers {
 Customer {
-    external_id: Some(
-        "12345",
-    ),
+    external_id: None,
     master_external_id: None,
     company_number: Some(
-        "470813-8895",
+        "12345",
     ),
     internal_id: Some(
         "45435",
@@ -22,19 +20,35 @@ Customer {
     ),
     preferred_store: None,
     address: None,
-    shopping_lists: [],
+    shopping_lists: [
+        ShoppingList {
+            products: [
+                "eyeliner",
+                "mascara",
+                "blue bombe eyeshadow",
+            ],
+        },
+    ],
 }
 
 }
 All Shopping Lists
-[]
+[
+    ShoppingList {
+        products: [
+            "eyeliner",
+            "mascara",
+            "blue bombe eyeshadow",
+        ],
+    },
+]
 SYNCING THIS:
 ExternalCustomer {
     external_id: Some(
         "12345",
     ),
     company_number: Some(
-        "470813-8895",
+        "12345",
     ),
     name: Some(
         "Acme Inc.",
@@ -63,9 +77,11 @@ Customer {
     external_id: Some(
         "12345",
     ),
-    master_external_id: None,
+    master_external_id: Some(
+        "12345",
+    ),
     company_number: Some(
-        "470813-8895",
+        "12345",
     ),
     internal_id: Some(
         "45435",
@@ -87,6 +103,13 @@ Customer {
     shopping_lists: [
         ShoppingList {
             products: [
+                "eyeliner",
+                "mascara",
+                "blue bombe eyeshadow",
+            ],
+        },
+        ShoppingList {
+            products: [
                 "lipstick",
                 "blusher",
             ],
@@ -97,6 +120,13 @@ Customer {
 }
 All Shopping Lists
 [
+    ShoppingList {
+        products: [
+            "eyeliner",
+            "mascara",
+            "blue bombe eyeshadow",
+        ],
+    },
     ShoppingList {
         products: [
             "lipstick",

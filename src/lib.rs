@@ -57,8 +57,8 @@ impl<Db: CustomerDataLayer> CustomerSync<Db> {
             }
         }
 
-        self.update_relations(&external_customer, &mut customer);
         self.update_preferred_store(&external_customer, &mut customer);
+        self.update_relations(&external_customer, &mut customer);
 
         Ok(created)
     }
@@ -139,7 +139,7 @@ impl<Db: CustomerDataLayer> CustomerSync<Db> {
             }
         }
 
-        Ok(CustomerMatches::new())
+        Ok(customer_matches)
     }
 
     fn create_customer(&mut self, customer: Customer) -> Customer {

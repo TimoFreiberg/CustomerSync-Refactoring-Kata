@@ -7,11 +7,11 @@ Fake Database.
 All Customers {
 Customer {
     external_id: Some(
-        "12345",
+        "conflicting id",
     ),
     master_external_id: None,
     company_number: Some(
-        "470813-8895",
+        "12345",
     ),
     internal_id: Some(
         "45435",
@@ -31,10 +31,10 @@ All Shopping Lists
 SYNCING THIS:
 ExternalCustomer {
     external_id: Some(
-        "12345",
+        "45646",
     ),
     company_number: Some(
-        "470813-8895",
+        "12345",
     ),
     name: Some(
         "Acme Inc.",
@@ -61,46 +61,24 @@ Fake Database.
 All Customers {
 Customer {
     external_id: Some(
-        "12345",
+        "conflicting id",
     ),
     master_external_id: None,
     company_number: Some(
-        "470813-8895",
+        "12345",
     ),
     internal_id: Some(
         "45435",
     ),
-    name: Some(
-        "Acme Inc.",
-    ),
+    name: None,
     customer_type: Some(
         Company,
     ),
     preferred_store: None,
-    address: Some(
-        Address {
-            street: "123 main st",
-            postal_code: "SE-123 45",
-            city: "Helsingborg",
-        },
-    ),
-    shopping_lists: [
-        ShoppingList {
-            products: [
-                "lipstick",
-                "blusher",
-            ],
-        },
-    ],
+    address: None,
+    shopping_lists: [],
 }
 
 }
 All Shopping Lists
-[
-    ShoppingList {
-        products: [
-            "lipstick",
-            "blusher",
-        ],
-    },
-]
+[]

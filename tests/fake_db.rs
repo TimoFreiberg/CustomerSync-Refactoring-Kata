@@ -59,7 +59,7 @@ impl FakeDataBase {
             s.push('\n');
         }
 
-        s.push('\n');
+        s.push_str("\n}");
         s.push_str("\nAll Shopping Lists\n");
         let sorted_shopping_lists = {
             let mut shopping_lists: Vec<_> = self.shopping_lists.iter().cloned().collect();

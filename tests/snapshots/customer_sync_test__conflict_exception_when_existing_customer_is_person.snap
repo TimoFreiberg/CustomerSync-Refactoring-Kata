@@ -10,15 +10,13 @@ Customer {
         "12345",
     ),
     master_external_id: None,
-    company_number: Some(
-        "470813-8895",
-    ),
+    company_number: None,
     internal_id: Some(
         "45435",
     ),
     name: None,
     customer_type: Some(
-        Company,
+        Person,
     ),
     preferred_store: None,
     address: None,
@@ -64,43 +62,19 @@ Customer {
         "12345",
     ),
     master_external_id: None,
-    company_number: Some(
-        "470813-8895",
-    ),
+    company_number: None,
     internal_id: Some(
         "45435",
     ),
-    name: Some(
-        "Acme Inc.",
-    ),
+    name: None,
     customer_type: Some(
-        Company,
+        Person,
     ),
     preferred_store: None,
-    address: Some(
-        Address {
-            street: "123 main st",
-            postal_code: "SE-123 45",
-            city: "Helsingborg",
-        },
-    ),
-    shopping_lists: [
-        ShoppingList {
-            products: [
-                "lipstick",
-                "blusher",
-            ],
-        },
-    ],
+    address: None,
+    shopping_lists: [],
 }
 
 }
 All Shopping Lists
-[
-    ShoppingList {
-        products: [
-            "lipstick",
-            "blusher",
-        ],
-    },
-]
+[]

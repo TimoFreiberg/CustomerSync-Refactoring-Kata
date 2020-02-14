@@ -80,6 +80,7 @@ pub trait CustomerDataLayer {
     fn find_by_company_number(&self, company_number: &str) -> Option<Customer>;
 }
 
+#[derive(Debug)]
 pub struct CustomerMatches {
     pub customer: Option<Customer>,
     pub match_term: Option<String>,
@@ -98,7 +99,7 @@ impl CustomerMatches {
         &self.customer
     }
     pub fn has_duplicates(&self) -> bool {
-        self.duplicates.is_empty()
+        !self.duplicates.is_empty()
     }
     pub fn get_duplicates(&self) -> &[Option<Customer>] {
         &self.duplicates

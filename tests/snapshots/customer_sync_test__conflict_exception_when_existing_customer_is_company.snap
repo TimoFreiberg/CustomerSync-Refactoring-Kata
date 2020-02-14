@@ -11,7 +11,7 @@ Customer {
     ),
     master_external_id: None,
     company_number: Some(
-        "470813-8895",
+        "32423-342",
     ),
     internal_id: Some(
         "45435",
@@ -33,25 +33,25 @@ ExternalCustomer {
     external_id: Some(
         "12345",
     ),
-    company_number: Some(
-        "470813-8895",
-    ),
+    company_number: None,
     name: Some(
-        "Acme Inc.",
+        "Joe Bloggs",
     ),
-    preferred_store: None,
+    preferred_store: Some(
+        "Nordstan",
+    ),
     address: Some(
         Address {
             street: "123 main st",
             postal_code: "SE-123 45",
-            city: "Helsingborg",
+            city: "Stockholm",
         },
     ),
     shopping_lists: [
         ShoppingList {
             products: [
                 "lipstick",
-                "blusher",
+                "foundation",
             ],
         },
     ],
@@ -65,42 +65,20 @@ Customer {
     ),
     master_external_id: None,
     company_number: Some(
-        "470813-8895",
+        "32423-342",
     ),
     internal_id: Some(
         "45435",
     ),
-    name: Some(
-        "Acme Inc.",
-    ),
+    name: None,
     customer_type: Some(
         Company,
     ),
     preferred_store: None,
-    address: Some(
-        Address {
-            street: "123 main st",
-            postal_code: "SE-123 45",
-            city: "Helsingborg",
-        },
-    ),
-    shopping_lists: [
-        ShoppingList {
-            products: [
-                "lipstick",
-                "blusher",
-            ],
-        },
-    ],
+    address: None,
+    shopping_lists: [],
 }
 
 }
 All Shopping Lists
-[
-    ShoppingList {
-        products: [
-            "lipstick",
-            "blusher",
-        ],
-    },
-]
+[]

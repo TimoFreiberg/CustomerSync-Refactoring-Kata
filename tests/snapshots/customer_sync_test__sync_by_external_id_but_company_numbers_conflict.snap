@@ -11,7 +11,7 @@ Customer {
     ),
     master_external_id: None,
     company_number: Some(
-        "470813-8895",
+        "000-3234",
     ),
     internal_id: Some(
         "45435",
@@ -65,10 +65,33 @@ Customer {
     ),
     master_external_id: None,
     company_number: Some(
-        "470813-8895",
+        "000-3234",
     ),
     internal_id: Some(
         "45435",
+    ),
+    name: Some(
+        "Acme Inc.",
+    ),
+    customer_type: Some(
+        Company,
+    ),
+    preferred_store: None,
+    address: None,
+    shopping_lists: [],
+}
+Customer {
+    external_id: Some(
+        "12345",
+    ),
+    master_external_id: Some(
+        "12345",
+    ),
+    company_number: Some(
+        "470813-8895",
+    ),
+    internal_id: Some(
+        "fake internalId",
     ),
     name: Some(
         "Acme Inc.",

@@ -16,7 +16,30 @@ Customer {
     internal_id: Some(
         "45435",
     ),
-    name: None,
+    name: Some(
+        "company 1",
+    ),
+    customer_type: Some(
+        Company,
+    ),
+    preferred_store: None,
+    address: None,
+    shopping_lists: [],
+}
+Customer {
+    external_id: None,
+    master_external_id: Some(
+        "12345",
+    ),
+    company_number: Some(
+        "470813-8895",
+    ),
+    internal_id: Some(
+        "45435234",
+    ),
+    name: Some(
+        "company 2",
+    ),
     customer_type: Some(
         Company,
     ),
@@ -92,6 +115,27 @@ Customer {
             ],
         },
     ],
+}
+Customer {
+    external_id: None,
+    master_external_id: Some(
+        "12345",
+    ),
+    company_number: Some(
+        "470813-8895",
+    ),
+    internal_id: Some(
+        "45435234",
+    ),
+    name: Some(
+        "Acme Inc.",
+    ),
+    customer_type: Some(
+        Company,
+    ),
+    preferred_store: None,
+    address: None,
+    shopping_lists: [],
 }
 
 }

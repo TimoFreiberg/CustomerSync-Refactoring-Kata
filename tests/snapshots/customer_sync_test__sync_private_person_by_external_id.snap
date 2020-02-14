@@ -10,15 +10,13 @@ Customer {
         "12345",
     ),
     master_external_id: None,
-    company_number: Some(
-        "470813-8895",
-    ),
+    company_number: None,
     internal_id: Some(
-        "45435",
+        "67576",
     ),
     name: None,
     customer_type: Some(
-        Company,
+        Person,
     ),
     preferred_store: None,
     address: None,
@@ -33,25 +31,25 @@ ExternalCustomer {
     external_id: Some(
         "12345",
     ),
-    company_number: Some(
-        "470813-8895",
-    ),
+    company_number: None,
     name: Some(
-        "Acme Inc.",
+        "Joe Bloggs",
     ),
-    preferred_store: None,
+    preferred_store: Some(
+        "Nordstan",
+    ),
     address: Some(
         Address {
             street: "123 main st",
             postal_code: "SE-123 45",
-            city: "Helsingborg",
+            city: "Stockholm",
         },
     ),
     shopping_lists: [
         ShoppingList {
             products: [
                 "lipstick",
-                "blusher",
+                "foundation",
             ],
         },
     ],
@@ -64,31 +62,31 @@ Customer {
         "12345",
     ),
     master_external_id: None,
-    company_number: Some(
-        "470813-8895",
-    ),
+    company_number: None,
     internal_id: Some(
-        "45435",
+        "67576",
     ),
     name: Some(
-        "Acme Inc.",
+        "Joe Bloggs",
     ),
     customer_type: Some(
-        Company,
+        Person,
     ),
-    preferred_store: None,
+    preferred_store: Some(
+        "Nordstan",
+    ),
     address: Some(
         Address {
             street: "123 main st",
             postal_code: "SE-123 45",
-            city: "Helsingborg",
+            city: "Stockholm",
         },
     ),
     shopping_lists: [
         ShoppingList {
             products: [
                 "lipstick",
-                "blusher",
+                "foundation",
             ],
         },
     ],
@@ -100,7 +98,7 @@ All Shopping Lists
     ShoppingList {
         products: [
             "lipstick",
-            "blusher",
+            "foundation",
         ],
     },
 ]

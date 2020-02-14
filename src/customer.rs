@@ -4,13 +4,13 @@ use std::iter::FromIterator;
 pub struct Customer {
     pub external_id: Option<String>,
     pub master_external_id: Option<String>,
-    pub name: Option<String>,
     pub company_number: Option<String>,
-    pub customer_type: Option<CustomerType>,
     pub internal_id: Option<String>,
+    pub name: Option<String>,
+    pub customer_type: Option<CustomerType>,
+    pub preferred_store: Option<String>,
     pub address: Option<Address>,
     pub shopping_lists: Vec<ShoppingList>,
-    pub preferred_store: Option<String>,
 }
 
 impl Customer {
@@ -27,13 +27,19 @@ impl Customer {
 #[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Debug)]
 pub struct Address {
     pub street: String,
-    pub city: String,
     pub postal_code: String,
+    pub city: String,
 }
 
 #[derive(Clone, PartialEq, Eq, Hash, PartialOrd, Ord, Debug)]
 pub struct ShoppingList {
-    pub products: Vec<String>,
+    products: Vec<String>,
+}
+
+impl ShoppingList {
+    pub fn new(products: Vec<String>) -> Self {
+        ShoppingList { products }
+    }
 }
 
 #[derive(Clone, PartialEq, Eq, Ord, PartialOrd, Debug)]
